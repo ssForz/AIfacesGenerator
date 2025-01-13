@@ -1,6 +1,7 @@
 import time
 
 import secret
+import bot_producer
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
@@ -121,6 +122,7 @@ async def interpolate_mod(message):
     # add queue sending with params
     # 
     await bot.send_message(message.chat.id, "Generating faces... Please wait...")
+    await bot_producer.publish(user_task)
 
 @dispatch.message_handler(commands=['fix_noise'])
 async def fix_noise_mod(message):
@@ -129,11 +131,12 @@ async def fix_noise_mod(message):
     # add queue sending with params
     # 
     await bot.send_message(message.chat.id, "Generating faces... Please wait...")
+    await bot_producer.publish(user_task)
 
 @dispatch.message_handler(commands=['fix_hair_eye'])
 async def fix_hair_eye_mod(message):
     user_task["user_id"] = str(message.chat.id)
-    user_task["mode"] = "fix_hair_eye"
+    user_task["mod"] = "fix_hair_eye"
     markup = get_markup_eye()
 
     await bot.send_message(message.chat.id, "Please, choose eye color", reply_markup = markup)
@@ -141,7 +144,7 @@ async def fix_hair_eye_mod(message):
 @dispatch.message_handler(commands=['change_hair'])
 async def change_hair_mod(message):
     user_task["user_id"] = str(message.chat.id)
-    user_task["mode"] = "fix_hair"
+    user_task["mod"] = "fix_hair"
     markup = get_markup_eye("fix_")
 
     await bot.send_message(message.chat.id, "Please, choose fixed eye color", reply_markup = markup)
@@ -149,7 +152,7 @@ async def change_hair_mod(message):
 @dispatch.message_handler(commands=['change_eye'])
 async def change_eye_mod(message):
     user_task["user_id"] = str(message.chat.id)
-    user_task["mode"] = "fix_eye"
+    user_task["mod"] = "fix_eye"
     markup = get_markup_hair("fix_")
 
     await bot.send_message(message.chat.id, "Please, choose fixed hair color", reply_markup = markup)
@@ -169,9 +172,9 @@ async def hair_color(message):
     user_task["hair_color"] = color
     # add queue sending with params
     # 
-    # await bot.send_message(message.chat.id, "Generating... Please wait")
-    await bot.send_message(message.chat.id, "Settings (opt for testing): hair - " + user_task['hair_color'] + ", eye - " + user_task['eye_color'])
-
+    await bot.send_message(message.chat.id, "Generating... Please wait")
+    # await bot.send_message(message.chat.id, "Settings (opt for testing): hair - " + user_task['hair_color'] + ", eye - " + user_task['eye_color'])
+    await bot_producer.publish(user_task)
    
 @dispatch.message_handler(regexp = '^fix_eye_')
 async def fix_eye_color(message):
@@ -180,12 +183,14 @@ async def fix_eye_color(message):
     # add queue sending with params
     # 
     await bot.send_message(message.chat.id, "Generating... Please wait...")
+    await bot_producer.publish(user_task)
 
 @dispatch.message_handler(regexp = '^fix_hair_')
 async def fix_hair_color(message):
     color = message.text[9:]
     user_task["hair_color"] = color
     await bot.send_message(message.chat.id, "Generating... Please wait...")
+    await bot_producer.publish(user_task)
     
 # @dispatch.message_handler(commands=['menu'])
 # async def menu(message):
