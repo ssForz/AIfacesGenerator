@@ -1,0 +1,40 @@
+version: "2.1"
+
+services:
+
+  rabbit_mq:
+
+    image: rabbitmq:3-management-alpine
+    container_name: rabbit_mq
+    ports:
+        - '5672:5672'
+        - '15672:15672'
+    volumes:
+      - ./rabbitmq/advanced.config:/etc/rabbitmq/advanced.config
+    networks:
+      - rabbit_net
+  app:
+    build: network
+    depends_on:
+        - rabbit_mq
+        - bot
+    links: 
+        - rabbit_mq
+    environment:
+        AMQP_URL_FROM_BOT: 'amqp://rabbit_mq?connection_attempts=10&retry_delay=10'
+    networks:
+      - rabbit_net
+
+  bot:
+    build: tg_bot
+    depends_on:
+        - rabbit_mq
+    links: 
+        - rabbit_mq
+    environment:
+        AMQP_URL_FROM_BOT: 'amqp://rabbit_mq?connection_attempts=10&retry_delay=10'
+    networks:
+      - rabbit_net
+networks:
+    rabbit_net:
+      driver: bridge
