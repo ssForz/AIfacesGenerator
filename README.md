@@ -5,7 +5,8 @@
 Литовченко А.А. - конфигурация с помощью докер, написание Dockerfile, docker-compose, сборка и тестирование приложения 
 
 ### Презентация
-Презентация в файле AIfaces_pres.pdf
+Презентация в файле AIfaces_pres.pdf 
+https://docs.google.com/presentation/d/1pxtYqNggim8Y6gOoUS0PdcHXZJZ3z0RzZl33wAgrK3w/edit#slide=id.g3256bf95f6c_0_66 
 
 ### Архитектура проекта на стадии планирования:
 ![image](https://github.com/user-attachments/assets/bb07e0db-d4d2-493b-b673-9cc62dce606d)
