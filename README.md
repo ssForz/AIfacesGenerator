@@ -1,4 +1,9 @@
 # AIfacesGenerator
+Обязанности:  
+Друхольский А.К. - построение архитектуры, обучение модели, обработка запросов на стороне сервера  
+Савинова Е.И. - телеграм бот, обработка запросов на стороне клиента  
+Литовченко А.А. - конфигурация с помощью докер, написание Dockerfile, docker-compose, сборка и тестирование приложения 
+
 ### Презентация
 Презентация в файле AIfaces_pres.pdf
 
@@ -34,4 +39,4 @@ docker-compose up --build
 * AIfacesGenerator\network\results\my_results 
 * AIfacesGenerator\network\results\generated 
 * AIfacesGenerator\network\src\result_test 
-* AIfacesGenerator\network\src\result_samples 
+* AIfacesGenerator\network\src\result_samples
