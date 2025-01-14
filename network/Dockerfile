@@ -6,4 +6,4 @@ RUN pip install pika
 
 COPY . /src/app
 
-ENTRYPOINT ["python", "/src/app/src/app_consumer.py"]
+ENTRYPOINT ["python", "/src/app/src/consumer.py"]
