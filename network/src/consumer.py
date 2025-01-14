@@ -27,19 +27,8 @@ async def send_message(uid):
 def respond(uid):
     asyncio.run(send_message(uid))
 
-async def send(uid):
-    flag = 1
-    while(flag):
-        try:
-            audio = open('/src/app/gen/' + uid + '/res.png', 'rb')
-            flag = 0
-        except:
-            continue
-    
-    await bot.send_photo(chat_id=int(uid),
-                     photo=InputFile('/src/app/gen/' + uid + '/res.png'))
 
-async def collect_task(body: dict):
+def collect_task(body: dict):
     uid = body["user_id"]
     outpath = "/src/app/gen/" + uid
     if body["mod"] == "interpolate":
@@ -66,12 +55,12 @@ async def collect_task(body: dict):
         os.system("python /src/app/src/test.py --type change_hair --eye " + 
             eye_color + 
             " --gen_model_dir \'/src/app/results/checkpoints/ACGAN-[64]-[50000]/G_32.ckpt\' -s " + outpath)
-    await send(uid)
+    respond(uid)
 
 
 
 def callback(ch, method, properties, body):
-    asyncio.create_task(collect_task(json.loads(body)))
+    collect_task(json.loads(body))
     # chatid = body.decode("utf-8")
     # print(body["mod"])
     # U.generate(models_ls,chatid)
