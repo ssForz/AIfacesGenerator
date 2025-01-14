@@ -29,8 +29,8 @@ docker-compose up --build
 ```
 ### Результаты
 Результаты работы приложения в целом есть в презентации
-Результаты генерации есть в файлах:
-AIfacesGenerator\network\results\my_results
-AIfacesGenerator\network\results\generated
-AIfacesGenerator\network\src\result_test
-AIfacesGenerator\network\src\result_samples
+Результаты генерации есть в файлах: 
+* AIfacesGenerator\network\results\my_results 
+* AIfacesGenerator\network\results\generated 
+* AIfacesGenerator\network\src\result_test 
+* AIfacesGenerator\network\src\result_samples 
