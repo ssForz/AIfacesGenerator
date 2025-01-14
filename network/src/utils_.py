@@ -118,7 +118,7 @@ def generate_by_attributes(model, device, latent_dim, hair_classes, eye_classes,
     z = torch.randn(64, latent_dim).to(device)
 
     output = model(z, tag)
-    vutils.save_image(output, '{}/{} hair {} eyes.png'.format(sample_dir, hair_mapping[hair_class], eye_mapping[eye_class]))
+    vutils.save_image(output, '{}/res.png'.format(sample_dir))
 
 
 def hair_grad(model, device, latent_dim, hair_classes, eye_classes, sample_dir):
@@ -152,7 +152,7 @@ def hair_grad(model, device, latent_dim, hair_classes, eye_classes, sample_dir):
         img_list.append(model(z, tag))
 
     output = torch.cat(img_list, 0)
-    vutils.save_image(output, '{}/change_hair_color.png'.format(sample_dir), nrow=hair_classes)
+    vutils.save_image(output, '{}/res.png'.format(sample_dir), nrow=hair_classes)
 
 
 def eye_grad(model, device, latent_dim, hair_classes, eye_classes, sample_dir):
@@ -184,7 +184,7 @@ def eye_grad(model, device, latent_dim, hair_classes, eye_classes, sample_dir):
         img_list.append(model(z, tag))
         
     output = torch.cat(img_list, 0)
-    vutils.save_image(output, '{}/change_eye_color.png'.format(sample_dir), nrow = eye_classes)
+    vutils.save_image(output, '{}/res.png'.format(sample_dir), nrow = eye_classes)
 
 
 def fix_noise(model, device, latent_dim, hair_classes, eye_classes, sample_dir):
@@ -216,7 +216,7 @@ def fix_noise(model, device, latent_dim, hair_classes, eye_classes, sample_dir):
             img_list.append(model(z, tag))
         
     output = torch.cat(img_list, 0)
-    vutils.save_image(output, '{}/fix_noise.png'.format(sample_dir), nrow = hair_classes)
+    vutils.save_image(output, '{}/res.png'.format(sample_dir), nrow = hair_classes)
 
 
 def interpolate(model, device, latent_dim, hair_classes, eye_classes, sample_dir, samples=10):
@@ -245,4 +245,4 @@ def interpolate(model, device, latent_dim, hair_classes, eye_classes, sample_dir
         c = c1 + c_step * i
         img_list.append(model(z, c))
     output = torch.cat(img_list, 0)
-    vutils.save_image(output, '{}/interpolation.png'.format(sample_dir), nrow=samples + 2)
+    vutils.save_image(output, '{}/res.png'.format(sample_dir), nrow=samples + 2)

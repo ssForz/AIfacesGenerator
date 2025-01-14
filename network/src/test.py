@@ -34,7 +34,7 @@ def main():
     prev_state = torch.load(args.gen_model_dir)
     G.load_state_dict(prev_state['model'])
     G = G.eval()
-
+    G = G.to(device)
     if args.type == 'fix_hair_eye':
         generate_by_attributes(G, device, latent_dim, hair_classes,
                                eye_classes, args.sample_dir, hair_color=args.hair, eye_color=args.eye)

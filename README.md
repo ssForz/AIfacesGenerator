@@ -11,3 +11,11 @@ Not ready yet. Using model for generating anime faces
 Обучаем сами (директория с данными и сгенерированная модель отсутствуют в репозитории из-за веса. Гайд по обучению и всему что связано с нейросетью в директории network или по ссылке на оригинальный гитхаб)
 
 Разворачиваем проект на cloud ru
+
+Запуск
+```
+docker-compose build
+docker-compose up -d rabbit_mq
+docker-compose up -d bot
+docker-compose up -d app
+```

@@ -105,6 +105,7 @@ venv.bak/
 
 #need to ignore files
 tg_bot/secret.py
+network/src/secret.py
 network/dataset/data
 network/generated/
 network/results/samples/

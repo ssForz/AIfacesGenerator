@@ -62,7 +62,7 @@ def main():
     G_optim = optim.Adam(G.parameters(), betas = [args.beta, 0.999], lr = args.lr)
     D_optim = optim.Adam(D.parameters(), betas = [args.beta, 0.999], lr = args.lr)
 
-    start_step = 0
+    start_step = 9
     models = glob.glob(os.path.join(checkpoint_dir,'/*.ckpt'))
     max_n = -1
     for model in models:
