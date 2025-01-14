@@ -4,7 +4,7 @@ import asyncio
 
 
 
-async def publish(chat_id):
+async def publish(task_json):
     amqp_url = os.environ['AMQP_URL_FROM_BOT']
     url_params = pika.URLParameters(amqp_url)
     connection = pika.BlockingConnection(url_params)
@@ -12,5 +12,5 @@ async def publish(chat_id):
 
     channel.queue_declare(queue='frombot')
 
-    channel.basic_publish(exchange='', routing_key='frombot', body=chat_id)
+    channel.basic_publish(exchange='', routing_key='frombot', body=task_json)
     connection.close()

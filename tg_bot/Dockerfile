@@ -7,4 +7,4 @@ RUN pip install --user aiogram==2.2
 RUN pip install pika
 COPY . /src/bot
 # run app
-ENTRYPOINT ["python", "./src/bot/bot.py"]
+ENTRYPOINT ["python", "./src/tg_bot/bot.py"]
