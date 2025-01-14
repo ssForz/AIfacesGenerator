@@ -10,52 +10,68 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from aiogram.types import InputFile
 
-bot = Bot(token=secret.TOKEN)
-dispatch = Dispatcher(bot)
+async def send_message(uid):
+    flag = 1
+    while(flag):
+        try:
+            audio = open('/src/app/gen/' + uid + '/res.png', 'rb')
+            flag = 0
+        except:
+            continue
+    operator = Bot(token=secret.TOKEN)
+    await operator.send_photo(chat_id=int(uid),
+                     photo=InputFile('/src/app/gen/' + uid + '/res.png'))
+    await operator.close()
 
-def collect_task(body: dict):
+
+def respond(uid):
+    asyncio.run(send_message(uid))
+
+async def send(uid):
+    flag = 1
+    while(flag):
+        try:
+            audio = open('/src/app/gen/' + uid + '/res.png', 'rb')
+            flag = 0
+        except:
+            continue
+    
+    await bot.send_photo(chat_id=int(uid),
+                     photo=InputFile('/src/app/gen/' + uid + '/res.png'))
+
+async def collect_task(body: dict):
     uid = body["user_id"]
-    outpath = "./results/" + uid
+    outpath = "/src/app/gen/" + uid
     if body["mod"] == "interpolate":
-        os.system("python test.py --type interpolate --gen_model_dir \'../results/checkpoints/ACGAN-[64]-[50000]/G_68.ckpt\' -s " + outpath)
+        os.system("python /src/app/src/test.py --type interpolate --gen_model_dir \'/src/app/results/checkpoints/ACGAN-[64]-[50000]/G_32.ckpt\' -s " + outpath)
 
     if body["mod"] == "fix_noise":
-        os.system("python test.py --type fix_noise --gen_model_dir \'../results/checkpoints/ACGAN-[64]-[50000]/G_68.ckpt\' -s " + outpath)
+        os.system("python /src/app/src/test.py --type fix_noise --gen_model_dir \'/src/app/results/checkpoints/ACGAN-[64]-[50000]/G_32.ckpt\' -s " + outpath)
 
     if body["mod"] == "fix_hair_eye":
         eye_color = body["eye_color"]
         hair_color = body["hair_color"]
-        os.system("python test.py --type fix_hair_eye --hair " + 
+        os.system("python /src/app/src/test.py --type fix_hair_eye --hair " + 
             hair_color + 
             " --eye " + 
             eye_color + 
-            " --gen_model_dir \'../results/checkpoints/ACGAN-[64]-[50000]/G_68.ckpt\' -s " + outpath)
+            " --gen_model_dir \'/src/app/results/checkpoints/ACGAN-[64]-[50000]/G_32.ckpt\' -s " + outpath)
     if body["mod"] == "change_eye":
         hair_color = body["hair_color"]
-        os.system("python test.py --type change_eye --hair " + 
+        os.system("python /src/app/src/test.py --type change_eye --hair " + 
             hair_color + 
-            " --gen_model_dir \'../results/checkpoints/ACGAN-[64]-[50000]/G_68.ckpt\' -s " + outpath)
+            " --gen_model_dir \'/src/app/results/checkpoints/ACGAN-[64]-[50000]/G_32.ckpt\' -s " + outpath)
     if body["mod"] == "change_hair":
         eye_color = body["eye_color"]
-        os.system("python test.py --type change_hair --eye " + 
+        os.system("python /src/app/src/test.py --type change_hair --eye " + 
             eye_color + 
-            " --gen_model_dir \'../results/checkpoints/ACGAN-[64]-[50000]/G_68.ckpt\' -s " + outpath)
-    flag = 1
-    while(flag):
-        try:
-            audio = open('/results/' + uid + '/res.png', 'rb')
-            flag = 0
-        except:
-            continue
-    # time.sleep(10)
-    bot.send_photo(chat_id=int(uid),
-                     photo=InputFile(path='/results/' + uid + '/res.png'))
-
+            " --gen_model_dir \'/src/app/results/checkpoints/ACGAN-[64]-[50000]/G_32.ckpt\' -s " + outpath)
+    await send(uid)
 
 
 
 def callback(ch, method, properties, body):
-    task = collect_task(json.loads(body))
+    asyncio.create_task(collect_task(json.loads(body)))
     # chatid = body.decode("utf-8")
     # print(body["mod"])
     # U.generate(models_ls,chatid)
